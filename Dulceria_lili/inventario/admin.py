@@ -1,111 +1,112 @@
 from django.contrib import admin
-from .forms import InventarioForm
-
 from .models import (
     Proveedor, Producto, Bodega, Usuario, Lote, Inventario,
-    Costo, OrdenCompra, DetalleOC, Pedido, DetallePedido, OrdenProduccion
+    Costo, OrdenCompra, DetalleOC, Pedidos, DetallePedido, OrdenProductos
 )
 
+# Inlines
+class DetalleOCInline(admin.TabularInline):
+    model = DetalleOC
+    extra = 1
+    fields = ("id_producto", "cantidad")
+    show_change_link = True
 
+class DetallePedidoInline(admin.TabularInline):
+    model = DetallePedido
+    extra = 1
+    fields = ("id_producto", "cantidad")
+    show_change_link = True
 
+class OrdenProductosInline(admin.TabularInline):
+    model = OrdenProductos
+    extra = 1
+    fields = ("id_producto", "cantidad")
+    show_change_link = True
+
+# Registro de modelos
 @admin.register(Usuario)
 class UsuarioAdmin(admin.ModelAdmin):
-    list_display = ['id_usuario', 'nombre', 'email', 'rol', 'created_at']
-    list_filter = ['rol', 'created_at']
-    search_fields = ['nombre', 'email']
-    ordering = ['-created_at']
+    list_display = ['id_usuario', 'nombre', 'apellido', 'correo', 'create_at']
+    list_filter = ['create_at']
+    search_fields = ['nombre', 'apellido', 'correo']
+    ordering = ['-create_at']
 
 @admin.register(Proveedor)
 class ProveedorAdmin(admin.ModelAdmin):
-    list_display = ['id_proveedor', 'nombre', 'rut', 'contacto', 'created_at']
-    list_filter = ['created_at']
-    search_fields = ['nombre', 'rut', 'contacto']
+    list_display = ['id_proveedor', 'nombre', 'direccion', 'telefono', 'create_at']
+    list_filter = ['create_at']
+    search_fields = ['nombre', 'telefono']
     ordering = ['nombre']
 
 @admin.register(Producto)
 class ProductoAdmin(admin.ModelAdmin):
-    list_display = ['id_producto', 'nombre', 'unidad', 'precio_base', 'cantidad_producto', 'id_receta']
-    list_filter = ['unidad', 'id_receta', 'created_at']
+    list_display = ['id_producto', 'nombre', 'descripcion', 'create_at']
+    list_filter = ['create_at']
     search_fields = ['nombre', 'descripcion']
     ordering = ['nombre']
+    inlines = [DetalleOCInline]
 
 @admin.register(Bodega)
 class BodegaAdmin(admin.ModelAdmin):
-    list_display = ['id_bodega', 'nombre', 'ubicacion', 'capacidad', 'created_at']
-    search_fields = ['nombre', 'ubicacion']
+    list_display = ['id_bodega', 'nombre', 'create_at']
+    search_fields = ['nombre']
     ordering = ['nombre']
 
 @admin.register(Lote)
 class LoteAdmin(admin.ModelAdmin):
-    list_display = ['id_lote', 'id_producto', 'fecha_vencimiento', 'cantidad_inicial', 'cantidad_actual', 'created_at']
-    list_filter = ['fecha_vencimiento', 'id_producto', 'created_at']
+    list_display = ['id_lote', 'id_producto', 'fecha_vencimiento', 'cantidad', 'create_at']
+    list_filter = ['fecha_vencimiento', 'create_at']
     search_fields = ['id_producto__nombre']
     ordering = ['-fecha_vencimiento']
-    date_hierarchy = 'fecha_vencimiento'
 
 @admin.register(Inventario)
 class InventarioAdmin(admin.ModelAdmin):
-    list_display = ['id_inventario', 'id_producto', 'id_bodega', 'id_lote', 'id_usuario', 'updated_at_TIMESTAMP']
-    list_filter = ['id_bodega', 'id_producto', 'updated_at_TIMESTAMP']
-    search_fields = ['id_producto__nombre', 'id_bodega__nombre']
-    ordering = ['-updated_at_TIMESTAMP']
-    date_hierarchy = 'updated_at_TIMESTAMP'
+    list_display = ['id_inventario', 'id_producto', 'cantidad', 'create_at']
+    list_filter = ['create_at']
+    search_fields = ['id_producto__nombre']
+    ordering = ['-create_at']
+
 
 @admin.register(Costo)
 class CostoAdmin(admin.ModelAdmin):
-    list_display = ['id_costo', 'id_producto', 'tipo', 'valor', 'fecha', 'created_at']
-    list_filter = ['tipo', 'fecha', 'created_at']
-    search_fields = ['id_producto__nombre', 'tipo']
-    ordering = ['-fecha']
-    date_hierarchy = 'fecha'
+    list_display = ['id_costo', 'id_producto', 'costo_unitario', 'create_at']
+    list_filter = ['create_at']
+    search_fields = ['id_producto__nombre']
+    ordering = ['-create_at']
 
 @admin.register(OrdenCompra)
 class OrdenCompraAdmin(admin.ModelAdmin):
-    list_display = ['id_oc', 'id_proveedor', 'fecha', 'estado', 'total', 'created_at']
-    list_filter = ['estado', 'fecha', 'created_at']
+    list_display = ['id_oc', 'id_usuario', 'id_proveedor', 'fecha', 'create_at']
+    list_filter = ['fecha', 'create_at']
     search_fields = ['id_proveedor__nombre']
     ordering = ['-fecha']
-    date_hierarchy = 'fecha'
-
-class DetalleOCInline(admin.TabularInline):
-    model = DetalleOC
-    extra = 0
+    inlines = [DetalleOCInline]
 
 @admin.register(DetalleOC)
 class DetalleOCAdmin(admin.ModelAdmin):
-    list_display = ['id_detalle_oc', 'id_oc', 'id_producto', 'cantidad', 'precio', 'created_at']
-    list_filter = ['created_at']
+    list_display = ['id_detalle_oc', 'id_oc', 'id_producto', 'cantidad', 'create_at']
+    list_filter = ['create_at']
     search_fields = ['id_oc__id_oc', 'id_producto__nombre']
-    ordering = ['-created_at']
+    ordering = ['-create_at']
 
-@admin.register(Pedido)
-class PedidoAdmin(admin.ModelAdmin):
-    list_display = ['id_pedido', 'id_cliente', 'fecha', 'estado', 'total', 'created_at']
-    list_filter = ['estado', 'fecha', 'created_at']
-    search_fields = ['id_pedido', 'id_cliente']
+@admin.register(Pedidos)
+class PedidosAdmin(admin.ModelAdmin):
+    list_display = ['id_pedido', 'id_usuario', 'fecha', 'create_at']
+    list_filter = ['fecha', 'create_at']
+    search_fields = ['id_usuario__nombre']
     ordering = ['-fecha']
-    date_hierarchy = 'fecha'
-
-class DetallePedidoInline(admin.TabularInline):
-    model = DetallePedido
-    extra = 0
+    inlines = [DetallePedidoInline, OrdenProductosInline]
 
 @admin.register(DetallePedido)
 class DetallePedidoAdmin(admin.ModelAdmin):
-    list_display = ['id_detalle_pedido', 'id_pedido', 'id_producto', 'cantidad', 'precio', 'created_at']
-    list_filter = ['created_at']
+    list_display = ['id_detalle_pedido', 'id_pedido', 'id_producto', 'cantidad', 'create_at']
+    list_filter = ['create_at']
     search_fields = ['id_pedido__id_pedido', 'id_producto__nombre']
-    ordering = ['-created_at']
+    ordering = ['-create_at']
 
-@admin.register(OrdenProduccion)
-class OrdenProduccionAdmin(admin.ModelAdmin):
-    list_display = ['id_op', 'id_producto', 'fecha_inicio', 'fecha_fin', 'estado', 'cantidad_planificada', 'cantidad_real', 'merma']
-    list_filter = ['estado', 'fecha_inicio', 'fecha_fin']
+@admin.register(OrdenProductos)
+class OrdenProductosAdmin(admin.ModelAdmin):
+    list_display = ['id_orden_producto', 'id_orden', 'id_producto', 'cantidad', 'create_at']
+    list_filter = ['create_at']
     search_fields = ['id_producto__nombre']
-    ordering = ['-fecha_inicio']
-    date_hierarchy = 'fecha_inicio'
-
-OrdenCompraAdmin.inlines = [DetalleOCInline]
-
-# Mejorar el admin de Pedido con inline de detalles  
-PedidoAdmin.inlines = [DetallePedidoInline]
+    ordering = ['-create_at']
