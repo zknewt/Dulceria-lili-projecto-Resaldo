@@ -1,0 +1,231 @@
+[
+{
+    "model": "inventario.usuario",
+    "pk": 1,
+    "fields": {
+        "nombre": "Ana",
+        "apellido": "Torres",
+        "correo": "ana.torres@dulceria.cl",
+        "create_at": "2025-10-03T15:10:54.578Z"
+    }
+},
+{
+    "model": "inventario.usuario",
+    "pk": 2,
+    "fields": {
+        "nombre": "Luis",
+        "apellido": "Munoz",
+        "correo": "luis.munoz@dulceria.cl",
+        "create_at": "2025-10-03T15:10:54.590Z"
+    }
+},
+{
+    "model": "inventario.proveedor",
+    "pk": 1,
+    "fields": {
+        "nombre": "Distribuidora DulceSur",
+        "direccion": "Av. Las Golondrinas 123",
+        "telefono": "987654321",
+        "create_at": "2025-10-03T15:10:54.602Z"
+    }
+},
+{
+    "model": "inventario.proveedor",
+    "pk": 2,
+    "fields": {
+        "nombre": "Confites del Valle",
+        "direccion": "Camino Real 456",
+        "telefono": "912345678",
+        "create_at": "2025-10-03T15:10:54.610Z"
+    }
+},
+{
+    "model": "inventario.producto",
+    "pk": 1,
+    "fields": {
+        "nombre": "Chocolate Bitter",
+        "descripcion": "Tableta de chocolate 70% cacao",
+        "create_at": "2025-10-03T15:10:54.503Z"
+    }
+},
+{
+    "model": "inventario.producto",
+    "pk": 2,
+    "fields": {
+        "nombre": "Galletas Vainilla",
+        "descripcion": "Paquete de galletas sabor vainilla",
+        "create_at": "2025-10-03T15:10:54.519Z"
+    }
+},
+{
+    "model": "inventario.producto",
+    "pk": 3,
+    "fields": {
+        "nombre": "Caramelo Menta",
+        "descripcion": "Caramelo duro con sabor a menta",
+        "create_at": "2025-10-03T15:10:54.535Z"
+    }
+},
+{
+    "model": "inventario.bodega",
+    "pk": 1,
+    "fields": {
+        "nombre": "Bodega Central",
+        "create_at": "2025-10-03T15:10:54.553Z"
+    }
+},
+{
+    "model": "inventario.bodega",
+    "pk": 2,
+    "fields": {
+        "nombre": "Bodega Norte",
+        "create_at": "2025-10-03T15:10:54.566Z"
+    }
+},
+{
+    "model": "inventario.lote",
+    "pk": 1,
+    "fields": {
+        "id_producto": 1,
+        "cantidad": "500.00",
+        "fecha_vencimiento": "2025-12-31",
+        "create_at": "2025-10-03T15:10:54.623Z"
+    }
+},
+{
+    "model": "inventario.lote",
+    "pk": 2,
+    "fields": {
+        "id_producto": 2,
+        "cantidad": "300.00",
+        "fecha_vencimiento": "2025-11-15",
+        "create_at": "2025-10-03T15:10:54.632Z"
+    }
+},
+{
+    "model": "inventario.costo",
+    "pk": 1,
+    "fields": {
+        "id_producto": 1,
+        "costo_unitario": "450.00",
+        "create_at": "2025-10-03T15:10:54.657Z"
+    }
+},
+{
+    "model": "inventario.costo",
+    "pk": 2,
+    "fields": {
+        "id_producto": 2,
+        "costo_unitario": "320.00",
+        "create_at": "2025-10-03T15:10:54.664Z"
+    }
+},
+{
+    "model": "inventario.ordencompra",
+    "pk": 1,
+    "fields": {
+        "id_usuario": 1,
+        "id_proveedor": 1,
+        "fecha": "2025-10-01",
+        "create_at": "2025-10-03T15:10:54.669Z"
+    }
+},
+{
+    "model": "inventario.detalleoc",
+    "pk": 1,
+    "fields": {
+        "id_producto": 1,
+        "id_oc": 1,
+        "cantidad": "500.00",
+        "create_at": "2025-10-03T15:10:54.676Z"
+    }
+},
+{
+    "model": "inventario.detalleoc",
+    "pk": 2,
+    "fields": {
+        "id_producto": 2,
+        "id_oc": 1,
+        "cantidad": "300.00",
+        "create_at": "2025-10-03T15:10:54.685Z"
+    }
+},
+{
+    "model": "inventario.pedidos",
+    "pk": 1,
+    "fields": {
+        "id_usuario": 2,
+        "fecha": "2025-10-02",
+        "create_at": "2025-10-03T15:10:54.695Z"
+    }
+},
+{
+    "model": "inventario.pedidos",
+    "pk": 2,
+    "fields": {
+        "id_usuario": 1,
+        "fecha": "2025-10-03",
+        "create_at": "2025-10-03T15:14:32.176Z"
+    }
+},
+{
+    "model": "inventario.detallepedido",
+    "pk": 1,
+    "fields": {
+        "id_producto": 1,
+        "id_pedido": 1,
+        "cantidad": "20.00",
+        "create_at": "2025-10-03T15:10:54.700Z"
+    }
+},
+{
+    "model": "inventario.detallepedido",
+    "pk": 2,
+    "fields": {
+        "id_producto": 2,
+        "id_pedido": 1,
+        "cantidad": "15.00",
+        "create_at": "2025-10-03T15:10:54.709Z"
+    }
+},
+{
+    "model": "inventario.detallepedido",
+    "pk": 3,
+    "fields": {
+        "id_producto": 3,
+        "id_pedido": 2,
+        "cantidad": "50.00",
+        "create_at": "2025-10-03T15:14:32.181Z"
+    }
+},
+{
+    "model": "inventario.ordenproductos",
+    "pk": 1,
+    "fields": {
+        "id_producto": 1,
+        "id_orden": 1,
+        "cantidad": "20.00",
+        "create_at": "2025-10-03T15:10:54.718Z"
+    }
+},
+{
+    "model": "inventario.ordenproductos",
+    "pk": 2,
+    "fields": {
+        "id_producto": 2,
+        "id_orden": 1,
+        "cantidad": "15.00",
+        "create_at": "2025-10-03T15:10:54.728Z"
+    }
+},
+{
+    "model": "inventario.ordenproductos",
+    "pk": 3,
+    "fields": {
+        "id_producto": 3,
+        "id_orden": 2,
+        "cantidad": "50.00",
+        "create_at": "2025-10-03T15:14:32.182Z"
+    }
+}
+]
