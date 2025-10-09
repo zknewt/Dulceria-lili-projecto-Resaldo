@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy
-from .models import Producto, Proveedor, OrdenCompra
+from .models import Producto, Proveedor, OrdenCompra, DetalleOC, Inventario
 
 # Productos
 class ProductoListView(LoginRequiredMixin, ListView):
@@ -65,3 +65,26 @@ class OrdenCompraCreateView(LoginRequiredMixin, CreateView):
 class OrdenCompraDetailView(LoginRequiredMixin, DetailView):
     model = OrdenCompra
     template_name = 'inventario/ordencompra_detail.html'
+
+
+class DetalleOCCreateView(CreateView):
+    model = DetalleOC
+    fields = ['id_producto', 'id_oc', 'cantidad']
+    template_name = 'inventario/detalleoc_form.html'
+    success_url = reverse_lazy('orden_list')  # o la vista que tú uses
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+
+        producto = form.instance.id_producto
+        cantidad = form.instance.cantidad
+
+        inventario, creado = Inventario.objects.get_or_create(
+            id_producto=producto,
+            defaults={'cantidad': cantidad}
+        )
+        if not creado:
+            inventario.cantidad += cantidad
+            inventario.save()
+
+        return response
