@@ -41,7 +41,9 @@ class Producto(models.Model):
 
 class Bodega(models.Model):
     id_bodega = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=45)
+    nombre = models.CharField(max_length=255)
+    ubicacion = models.TextField(default="Sin ubicación definida")  # ← valor por defecto
+    capacidad = models.IntegerField(default=0)
     create_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

@@ -4,24 +4,45 @@ from .models import (
     Costo, OrdenCompra, DetalleOC, Pedidos, DetallePedido, OrdenProductos
 )
 
-# Inlines
+# Inlines mejorados
 class DetalleOCInline(admin.TabularInline):
     model = DetalleOC
     extra = 1
+    autocomplete_fields = ["id_producto"]
     fields = ("id_producto", "cantidad")
     show_change_link = True
 
 class DetallePedidoInline(admin.TabularInline):
     model = DetallePedido
     extra = 1
+    autocomplete_fields = ["id_producto"]
     fields = ("id_producto", "cantidad")
     show_change_link = True
 
 class OrdenProductosInline(admin.TabularInline):
     model = OrdenProductos
     extra = 1
+    autocomplete_fields = ["id_producto"]
     fields = ("id_producto", "cantidad")
     show_change_link = True
+
+class InventarioInline(admin.TabularInline):
+    model = Inventario
+    extra = 1
+    show_change_link = True
+    # Elimina readonly_fields si quieres permitir insertar datos
+
+class CostoInline(admin.TabularInline):
+    model = Costo
+    extra = 1
+    show_change_link = True
+    # Elimina readonly_fields si quieres permitir insertar datos
+
+class LoteInline(admin.TabularInline):
+    model = Lote
+    extra = 1
+    show_change_link = True
+
 
 # Registro de modelos
 @admin.register(Usuario)
@@ -44,12 +65,12 @@ class ProductoAdmin(admin.ModelAdmin):
     list_filter = ['create_at']
     search_fields = ['nombre', 'descripcion']
     ordering = ['nombre']
-    inlines = [DetalleOCInline]
+    inlines = [InventarioInline, CostoInline, LoteInline]
 
 @admin.register(Bodega)
 class BodegaAdmin(admin.ModelAdmin):
-    list_display = ['id_bodega', 'nombre', 'create_at']
-    search_fields = ['nombre']
+    list_display = ['id_bodega', 'nombre', 'ubicacion', 'capacidad', 'create_at']
+    search_fields = ['nombre', 'ubicacion']
     ordering = ['nombre']
 
 @admin.register(Lote)
@@ -65,7 +86,6 @@ class InventarioAdmin(admin.ModelAdmin):
     list_filter = ['create_at']
     search_fields = ['id_producto__nombre']
     ordering = ['-create_at']
-
 
 @admin.register(Costo)
 class CostoAdmin(admin.ModelAdmin):
